@@ -35,9 +35,16 @@ app.use(function (req, res, next) {
 });
 
 app.get('/', (req, res) => res.send('Hello World!!'))
+
+
 app.get('/users', (req, res) => {
-    var user1 = {firstname: "Robert"}
-    res.json(user1)
+    con.query("SELECT * FROM users", (err, rows, fields) => {
+        if (err) {
+            res.sendStatus(500);
+            return;
+        }
+        res.json(rows);
+    });
 })
 
 app.get('/user/:id', (req, res) => {
@@ -46,12 +53,10 @@ app.get('/user/:id', (req, res) => {
     let queryString = "SELECT * FROM users WHERE id = ?";
 
     con.query(queryString, [userId], (err, rows, fields) => {
-
         if (err) {
             res.sendStatus(500);
             return;
         }
-
         res.json(rows);
     });
 })
