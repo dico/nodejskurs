@@ -1,5 +1,5 @@
 const express = require('express')
-var mysql = require('mysql');
+const mysql = require('mysql');
 const app = express()
 
 var con = mysql.createConnection({
@@ -7,12 +7,32 @@ var con = mysql.createConnection({
     user: "root",
     //password: "yourpassword"
     database: "nodeapp"
-  });
-  
-  con.connect(function(err) {
+});
+
+con.connect(function(err) {
     if (err) throw err;
     console.log("Connected!");
-  });
+});
+
+// Add headers
+app.use(function (req, res, next) {
+
+    // Website you wish to allow to connect
+    res.setHeader('Access-Control-Allow-Origin', '*');
+
+    // Request methods you wish to allow
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+
+    // Request headers you wish to allow
+    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
+
+    // Set to true if you need the website to include cookies in the requests sent
+    // to the API (e.g. in case you use sessions)
+    res.setHeader('Access-Control-Allow-Credentials', true);
+
+    // Pass to next layer of middleware
+    next();
+});
 
 app.get('/', (req, res) => res.send('Hello World!!'))
 app.get('/users', (req, res) => {
@@ -22,8 +42,8 @@ app.get('/users', (req, res) => {
 
 app.get('/user/:id', (req, res) => {
 
-    const userId = req.params.id;
-    const queryString = "SELECT * FROM users WHERE id = ?";
+    let userId = req.params.id;
+    let queryString = "SELECT * FROM users WHERE id = ?";
 
     con.query(queryString, [userId], (err, rows, fields) => {
 
