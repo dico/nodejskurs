@@ -21,7 +21,17 @@ app.get('/users', (req, res) => {
 })
 
 app.get('/user/:id', (req, res) => {
-    con.query("SELECT * FROM users", (err, rows, fields) => {
+
+    const userId = req.params.id;
+    const queryString = "SELECT * FROM users WHERE id = ?";
+
+    con.query(queryString, [userId], (err, rows, fields) => {
+
+        if (err) {
+            res.sendStatus(500);
+            return;
+        }
+
         res.json(rows);
     });
 })
