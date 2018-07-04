@@ -1,6 +1,9 @@
 const express = require('express')
 const mysql = require('mysql');
-const app = express()
+const app = express();
+const bodyParser = require('body-parser');
+
+app.use(bodyParser.urlencoded({extended: false}));
 
 var con = mysql.createConnection({
     host: "localhost",
@@ -40,6 +43,14 @@ app.use(express.static('./public'));
 
 //app.get('/', (req, res) => res.send('Hello World!!'))
 
+
+app.post('/create_user', (req, res) => {
+    console.log('Hei, her skjer det noe...');
+
+    console.log('Fornavn: ' + req.body.inputFirstname);
+
+    res.end();
+})
 
 app.get('/users', (req, res) => {
     con.query("SELECT * FROM users", (err, rows, fields) => {
