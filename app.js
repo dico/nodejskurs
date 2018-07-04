@@ -34,7 +34,11 @@ app.use(function (req, res, next) {
     next();
 });
 
-app.get('/', (req, res) => res.send('Hello World!!'))
+// Vis statisk innhold (frontend)
+app.use(express.static('./public'));
+
+
+//app.get('/', (req, res) => res.send('Hello World!!'))
 
 
 app.get('/users', (req, res) => {
