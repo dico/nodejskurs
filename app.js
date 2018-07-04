@@ -47,9 +47,22 @@ app.use(express.static('./public'));
 app.post('/create_user', (req, res) => {
     console.log('Hei, her skjer det noe...');
 
-    console.log('Fornavn: ' + req.body.inputFirstname);
+    let firstname = req.body.inputFirstname;
+    let lastname = req.body.inputLastname;
 
-    res.end();
+    let queryString = "INSERT INTO users (firstname, lastname) VALUES (?, ?)";
+
+    con.query(queryString, [firstname, lastname], (err, results, fields) => {
+        if (err) {
+            res.sendStatus(500);
+            return;
+        }
+
+        let feedback = {status: "OK", userId: results.insertId}
+        res.json(feedback);
+
+        console.log("Ny bruker med ID: " + results.insertId);
+    });
 })
 
 app.get('/users', (req, res) => {
