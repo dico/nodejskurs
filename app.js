@@ -65,6 +65,24 @@ app.post('/create_user', (req, res) => {
     });
 })
 
+
+// Slett bruker fra database
+app.post('/delete_user', (req, res) => {
+
+    let id = req.body.id; // Hent ID som sendes med POST
+    let queryString = "DELETE FROM users WHERE id = ?"; // Database query
+
+    con.query(queryString, [id], (err, results, fields) => {
+        if (err) {
+            res.sendStatus(500);
+            return;
+        }
+
+        let feedback = {status: "OK"}
+        res.json(feedback);
+    });
+})
+
 app.get('/users', (req, res) => {
     con.query("SELECT * FROM users", (err, rows, fields) => {
         if (err) {

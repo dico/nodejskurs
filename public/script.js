@@ -41,6 +41,31 @@ $(document).on('submit', '#skjema-ny-bruker', function(event) {
 
 });
 
+$(document).on('click', '#deleteUser', function(event) {
+
+    // Hent bruker ID fra data-attribut
+    let getUserID = $(this).data('id');
+
+    // Print for å sjekke at det fungerer
+    console.log('Forsøker å slette bruker... ID: ' + getUserID);
+
+    $.ajax({
+        type: "POST",
+        url: "/delete_user",
+        data: {
+            id: getUserID
+        },
+        success: function(response) {
+            console.log(response);
+
+            $("#users").html(''); // Nullstill boks med brukere
+            getUsers(); // Hent brukere på nytt
+        },
+        error: function(req, status, error) {
+            console.log(error);
+        }
+    })
+});
 
 
 
