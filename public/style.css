@@ -1,0 +1,26 @@
+body {
+    background-color: #eaf0f9;
+}
+
+#skjema-ny-bruker {
+    background-color: white;
+    padding: 15px;
+    border-radius: 10px;
+    margin-bottom: 25px;
+}
+
+#users {
+    background-color: white;
+    padding: 15px;
+    border-radius: 10px;
+}
+
+#output {
+    background-color: white;
+    padding: 15px;
+    border-radius: 10px;
+}
+
+#btn-new-user {
+    margin-top: 32px;
+}

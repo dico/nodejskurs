@@ -60,6 +60,8 @@ $(document).on('click', '#deleteUser', function(event) {
 
             $("#users").html(''); // Nullstill boks med brukere
             getUsers(); // Hent brukere på nytt
+
+            $("#output").html(''); // Nullstill boks med bruker
         },
         error: function(req, status, error) {
             console.log(error);
