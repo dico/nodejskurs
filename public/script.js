@@ -5,6 +5,43 @@ console.log("script.js loaded")
 getUsers();
 
 
+$(document).on('submit', '#skjema-ny-bruker', function(event) {
+
+    event.preventDefault(); // Totally stop stuff happening
+
+    console.log('Skjema submitted');
+
+    let firstname = $('#inputFirstname').val();
+    let lastname = $('#inputLastname').val();
+
+    $.ajax({
+        type: "POST",
+        url: "/create_user",
+        data: {
+            inputFirstname: firstname,
+            inputLastname: lastname
+        },
+        success: function(response) {
+            console.log(response);
+
+            $("#users").html(''); // Nullstill boks med brukere
+            getUsers(); // Hent brukere på nytt
+
+            // Fjern tekst i input-felt
+            $('#inputFirstname').val('');
+            $('#inputLastname').val('');
+
+            // Blinkende "I" hopper tilbake på fornavn
+            $('#inputFirstname').focus();
+        },
+        error: function(req, status, error) {
+            console.log(error);
+        }
+    })
+
+});
+
+
 
 
 // Henter bruker fra backend
@@ -26,7 +63,7 @@ function printUser(data) {
         console.log(val);
         console.log(val.firstname);
 
-        $( "#output" ).html("<label>Navn</label><br>" + val.firstname + " " + val.lastname);
+        $( "#output" ).html("<label>Navn</label><br>" + val.firstname + " " + val.lastname + '<br><a href="#" id="deleteUser" data-id="'+val.id+'">[Slett]</a>');
     });
 }
 
